@@ -29,6 +29,10 @@ class _HomePageState extends State<HomePage> {
     configurationProvider.environment = environment;
   }
 
+  throwError(error) async {
+    throw error;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Environment environment = Provider.of<ConfigurationProvider>(context).environment;
@@ -40,7 +44,10 @@ class _HomePageState extends State<HomePage> {
             ? _StatusImage(connectionSuccess: null)
             : FutureBuilder(
                 future: HealthService().healthcheck(context),
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    throwError(snapshot.error);
+                  }
                   if (snapshot.hasData) {
                     return _StatusImage(connectionSuccess: snapshot.data);
                   } else {

@@ -6,14 +6,14 @@ import 'package:provider/provider.dart';
 
 class HealthService {
   Future<bool> healthcheck(BuildContext context) async {
+    final baseUrl = Provider.of<ConfigurationProvider>(context).environment.baseUrl;
+    final url = '$baseUrl/queueing/health';
     try {
-      final baseUrl = Provider.of<ConfigurationProvider>(context).environment.baseUrl;
-      final response = await http.get('$baseUrl/queueing/health');
+      final response = await http.get(url);
 
       return response.statusCode == 200;
     } catch (e) {
-      print(e);
-      return false;
+      throw new Exception([e, Exception(url)]);
     }
   }
 }

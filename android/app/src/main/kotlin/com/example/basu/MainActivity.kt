@@ -1,4 +1,4 @@
-package com.example.basu
+package com.fif.payments.basu
 
 import io.flutter.embedding.android.FlutterActivity
 
